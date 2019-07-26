@@ -138,5 +138,5 @@ install_repo "ICA"			ica-plugin/ICA
 
 echo Making links...
 
-ln -s plugin-GUI/Build/"$config"/open-ephys "open-ephys ($config)" || exit 1
-ln -s plugin-GUI/Build/"$config"/open-ephys "$HOME/Desktop/open-ephys ($config)" || exit 1
+ln -fs "$rootdir"/plugin-GUI/Build/"$config"/open-ephys "open-ephys ($config)" || exit 1
+ln -fs "$rootdir"/plugin-GUI/Build/"$config"/open-ephys "$HOME/Desktop/open-ephys ($config)" || exit 1
