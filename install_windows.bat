@@ -116,6 +116,11 @@ echo Building %~1...
 
 cd %rootdir%\%~2\Build
 cmake -G "Visual Studio 12 2013" -A x64 ..
+if errorlevel 1 (
+    cd %rootdir%
+    echo CMake failed to configure %~1
+    exit /b 1
+
 set logfile=%~3_build.log
 if exist %logdir%\%logfile% del %logdir%\%logfile%
 devenv %~3.sln /build %config% /project %~4 /out %logdir%\%logfile%
