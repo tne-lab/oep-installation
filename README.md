@@ -1,0 +1,30 @@
+# oep-installation
+
+This repository houses scripts for easy installation of Open Ephys and useful plugins.
+
+## Prerequisites
+
+* Git must be installed.
+  * If on Windows, you can find the installer [here](https://git-scm.com/download/win). When installing, you must select "Git from the command line and also from 3rd-party software" on the "Adjusting your PATH environment" page.
+
+* [CMake](https://cmake.org/) must be installed.
+
+* On Windows, you must have Visual Studio 2013 (or just the 2013 Build Tools for Visual Studio) installed.
+
+* If you are on Windows and want to use ASIO for lower-latency processing, you must install ASIO4ALL [here](http://www.asio4all.org/).
+
+
+## Installation
+
+* Either download as a ZIP file and unzip, or clone using `git clone https://tne-lab/oep-installation` at a terminal.
+
+* Run `install_windows.bat` on Windows, or `install_linux.sh` on Linux.
+
+* The scripts will build the Release GUI by default, but to use a different configuration (such as Debug), you can pass it as an argument, i.e. run `install_windows.bat Debug`.
+
+* You can re-run the install scripts at any time to update to the latest version.
+
+## Post-installation
+
+* If this is the first time you are using the Open Ephys hardware on a Windows computer, you must run `plugin-GUI/Resources/DLLs/FrontPanelUSB-DriverOnly-4.4.0.exe` to install the Opal Kelly driver.
+
