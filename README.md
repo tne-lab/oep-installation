@@ -16,13 +16,13 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
 ## Installation
 
-* Either download as a ZIP file and unzip, or clone using `git clone https://tne-lab/oep-installation` at a terminal.
+* Either download as a ZIP file and unzip, or clone using `git clone https://github.com/tne-lab/oep-installation` at a terminal.
 
 * Run `install_windows.bat` on Windows, or `install_linux.sh` on Linux.
 
 * The scripts will build the Release GUI by default, but to use a different configuration (such as Debug), you can pass it as an argument, i.e. run `install_windows.bat Debug`.
 
-* You can re-run the install scripts at any time to update to the latest version.
+* You can re-run the install script at any time to update to the latest version.
 
 ## Post-installation
 
