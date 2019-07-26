@@ -112,11 +112,12 @@ exit /b 0
 
 
 :build_repo
+echo Building %~1...
+
 cd %rootdir%\%~2\Build
 cmake -G "Visual Studio 12 2013" -A x64 ..
 set logfile=%~4_build.log
 if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building %~1...
 devenv %~3.sln /build %config% /project %~4 /out %logdir%\%logfile%
 if errorlevel 1 (
     cd %rootdir%
