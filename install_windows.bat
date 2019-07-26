@@ -11,14 +11,14 @@ set config=%1
 if [%config%]==[] set config=Release
 
 rem prepare 64-bit build toolset
-if not defined DevEnvDir (
+if not defined INCLUDE (
     call "%ProgramFiles(x86)%\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64
-)
-
-if errorlevel 1 (
+    
+    if errorlevel 1 (
     echo.
     echo Could not prepare Visual Studio compiler - do you have Visual Studio 2013 installed?
     exit /b 1
+    )
 )
 
 echo Downloading GUI and dependencies...
@@ -35,123 +35,6 @@ if not exist asiosdk (
     )
     
     echo Make sure to install ASIO4ALL to use ASIO.
-)
-
-if not exist plugin-GUI (
-    echo.
-    echo Downloading Open Ephys GUI...
-    echo.
-
-    git clone https://github.com/tne-lab/plugin-GUI
-    
-    if errorlevel 1 (
-        echo Error downloading Open Ephys GUI
-        exit /b 1
-    )
-)
-
-if not exist ZMQPlugins (
-    echo.
-    echo Downloading ZeroMQ plugins....
-    echo.
-
-    git clone https://github.com/open-ephys-plugins/ZMQPlugins
-    
-    if errorlevel 1 (
-        echo Error downloading ZeroMQ plugins
-        exit /b 1
-    )
-)
-
-if not exist HDF5Plugins (
-    echo.
-    echo Downloading HDF5 plugins...
-    echo.
-
-    git clone https://github.com/open-ephys-plugins/HDF5Plugins
-    
-    if errorlevel 1 (
-        echo Error downloading HDF5 plugins
-        exit /b 1
-    )
-)
-
-if not exist OpenEphysFFTW (
-    echo.
-    echo Downloading OpenEphysFFTW library...
-    echo.
-    
-    git clone https://github.com/tne-lab/OpenEphysFFTW
-    
-    if errorlevel 1 (
-        echo Error downloading OpenEphysFFTW library
-        exit /b 1
-    )
-)
-
-if not exist phase-calculator (
-    echo.
-    echo Downloading Phase Calculator...
-    echo.
-
-    git clone https://github.com/tne-lab/phase-calculator
-    
-    if errorlevel 1 (
-        echo Error downloading Phase Calculator
-        exit /b 1
-    )
-)
-
-if not exist crossing-detector (
-    echo.
-    echo Downloading Crossing Detector...
-    echo.
-
-    git clone https://github.com/tne-lab/crossing-detector
-    
-    if errorlevel 1 (
-        echo Error downloading Crossing Detector
-        exit /b 1
-    )
-)
-
-if not exist sample-math (
-    echo.
-    echo Downloading Sample Math...
-    echo.
-
-    git clone https://github.com/tne-lab/sample-math
-    
-    if errorlevel 1 (
-        echo Error downloading Sample Math
-        exit /b 1
-    )
-)
-
-if not exist continuous-stats (
-    echo.
-    echo Downloading Continuous Stats...
-    echo.
-
-    git clone https://github.com/tne-lab/continuous-stats
-    
-    if errorlevel 1 (
-        echo Error downloading Continuous Stats
-        exit /b 1
-    )
-)
-
-if not exist mean-spike-rate (
-    echo.
-    echo Downloading Mean Spike Rate...
-    echo.
-
-    git clone https://github.com/tne-lab/mean-spike-rate
-    
-    if errorlevel 1 (
-        echo Error downloading Mean Spike Rate
-        exit /b 1
-    )
 )
 
 rem for ICA
@@ -173,169 +56,68 @@ if errorlevel 1 (
     cd %rootdir%
 )
 
-if not exist ica-plugin (
-    echo.
-    echo Downloading ICA...
-    echo.
+rem                 Name                    Organization        Repository          Branch
+rem --------------------------------------------------------------------------------------------------------
+call :download_repo "Open Ephys GUI"        tne-lab             plugin-GUI          low-latency || exit /b 1
+call :download_repo "ZeroMQ plugins"        open-ephys-plugins  ZMQPlugins          master      || exit /b 1
+call :download_repo "HDF5 plugins"          open-ephys-plugins  HDF5Plugins         master      || exit /b 1
+call :download_repo "OpenEphysFFTW library" tne-lab             OpenEphysFFTW       cmake-gui   || exit /b 1
+call :download_repo "Phase Calculator"      tne-lab             phase-calculator    cmake-gui   || exit /b 1
+call :download_repo "Crossing Detector"     tne-lab             crossing-detector   cmake-gui   || exit /b 1
+call :download_repo "Sample Math"           tne-lab             sample-math         cmake-gui   || exit /b 1
+call :download_repo "Mean Spike Rate"       tne-lab             mean-spike-rate     cmake-gui   || exit /b 1
+call :download_repo "ICA"                   tne-lab             ica-plugin          cmake-gui   || exit /b 1
 
-    git clone https://github.com/tne-lab/ica-plugin
+
+echo Building GUI and dependencies...
+
+rem              Name                       Folder containing CMakeLists.txt    Solution name               Project name
+rem --------------------------------------------------------------------------------------------------------------------------------
+call :build_repo "Open Ephys GUI"           plugin-GUI                          open-ephys-GUI              ALL_BUILD   || exit /b 1
+call :build_repo "ZeroMQ plugins"           ZMQPlugins                          OE_ZMQ                      INSTALL     || exit /b 1
+call :build_repo "HDF5 plugins"             HDF5Plugins                         OE_HDF5                     INSTALL     || exit /b 1
+call :build_repo "OpenEphysFFTW library"    OpenEphysFFTW\OpenEphysFFTW         OE_COMMONLIB_OpenEphysFFTW  INSTALL     || exit /b 1
+call :build_repo "Phase Calculator"         phase-calculator\PhaseCalculator    OE_PLUGIN_PhaseCalculator   INSTALL     || exit /b 1
+call :build_repo "Crossing Detector"        crossing-detector\CrossingDetector  OE_PLUGIN_CrossingDetector  INSTALL     || exit /b 1
+call :build_repo "Sample Math"              sample-math\SampleMath              OE_PLUGIN_SampleMath        INSTALL     || exit /b 1
+call :build_repo "Mean Spike Rate"          mean-spike-rate\MeanSpikeRate       OE_PLUGIN_MeanSpikeRate     INSTALL     || exit /b 1
+call :build_repo "ICA"                      ica-plugin\ICA                      OE_PLUGIN_ICA               INSTALL     || exit /b 1
+
+rem make links to the executable
+PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%rootdir%\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
+PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%userprofile%\Desktop\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
+
+exit /b 0
+
+:download_repo
+if not exist %~3 (
+    echo.
+    echo Downloading %~1...
+    echo.
+    
+    git clone https://github.com/%~2/%~3
     
     if errorlevel 1 (
-        echo Error downloading ICA
+        echo Error downloading %~1
         exit /b 1
     )
 )
 
-echo Building GUI and dependencies...
-
-cd plugin-GUI
-git checkout low-latency
-cd Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=gui_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building Open Ephys GUI...
-devenv open-ephys-GUI.sln /build %config% /project ALL_BUILD /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\ZMQPlugins\Build
+cd %~3
+git checkout %~4
 git pull
+
+cd %rootdir%
+exit /b 0
+
+
+:build_repo
+cd %rootdir%\%~2\Build
 cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=zmq_build.log
+set logfile=%~4_build.log
 if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building ZeroMQ plugins...
-devenv OE_ZMQ.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\HDF5Plugins\Build
-git pull
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=hdf5_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building HDF5 plugins...
-devenv OE_HDF5.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\OpenEphysFFTW\OpenEphysFFTW\Build
-git fetch origin
-git checkout cmake-gui
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=fftw_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building OpenEphysFFTW...
-devenv OE_COMMONLIB_OpenEphysFFTW.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\phase-calculator
-git fetch origin
-git checkout cmake-gui
-cd PhaseCalculator\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=phase_calculator_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building Phase Calculator...
-devenv OE_PLUGIN_PhaseCalculator.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\crossing-detector
-git fetch origin
-git checkout cmake-gui
-cd CrossingDetector\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=crossing_detector_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building Crossing Detector...
-devenv OE_PLUGIN_CrossingDetector.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\sample-math
-git fetch origin
-git checkout cmake-gui
-cd SampleMath\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=sample_math_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building Sample Math...
-devenv OE_PLUGIN_SampleMath.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\continuous-stats
-git fetch origin
-git checkout cmake-gui
-cd ContinuousStats\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=continuous_stats_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building Continuous Stats...
-devenv OE_PLUGIN_ContinuousStats.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\mean-spike-rate
-git fetch origin
-git checkout cmake-gui
-cd MeanSpikeRate\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=mean_spike_rate_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building Mean Spike Rate...
-devenv OE_PLUGIN_MeanSpikeRate.sln /build %config% /project INSTALL /out %logdir%\%logfile%
-if errorlevel 1 (
-    cd %rootdir%
-    echo Build failed, see install_log/%logfile%
-    exit /b 1
-)
-
-cd %rootdir%\ica-plugin
-git fetch origin
-git checkout cmake-gui
-cd ICA\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
-
-set logfile=ica_build.log
-if exist %logdir%\%logfile% del %logdir%\%logfile%
-echo Building ICA...
-devenv OE_PLUGIN_ICA.sln /build %config% /project INSTALL /out %logdir%\%logfile%
+echo Building %~1...
+devenv %~3.sln /build %config% /project %~4 /out %logdir%\%logfile%
 if errorlevel 1 (
     cd %rootdir%
     echo Build failed, see install_log/%logfile%
@@ -343,7 +125,4 @@ if errorlevel 1 (
 )
 
 cd %rootdir%
-
-rem make links to the executable
-PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%rootdir%\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
-PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%userprofile%\Desktop\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
+exit /b 0
