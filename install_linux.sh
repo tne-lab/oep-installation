@@ -80,6 +80,16 @@ if [ ! -d /usr/local/hdf5 ]; then
     make && make check || exit 1
     sudo make install && sudo make check-install || exit 1
 
+    # set environment variables
+    echo >> ~/.bashrc
+    echo "# for Open Ephys" >> ~/.bashrc
+    eval $(tee -a ~/.bashrc <<'EOF'
+export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH":/usr/local/hdf5/include
+export LIBRARY_PATH="$LIBRARY_PATH":/usr/local/hdf5/lib
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH":/usr/local/hdf5/lib
+EOF
+	)
+
     cd "$rootdir" || exit 1
 fi
 
