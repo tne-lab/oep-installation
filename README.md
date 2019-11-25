@@ -28,3 +28,5 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
 * If this is the first time you are using the Open Ephys hardware on a Windows computer, you must run `plugin-GUI/Resources/DLLs/FrontPanelUSB-DriverOnly-4.4.0.exe` to install the Opal Kelly driver.
 
+* If you are using the Python Plugin in Windows be sure to follow the instructions at https://github.com/tne-lab/PythonPlugin/tree/cmake_build to build and configure your installation after running the .bat script. Then see https://github.com/MemDynLab/PythonPlugin/issues/23 if you have issues loading python modules in.
+
