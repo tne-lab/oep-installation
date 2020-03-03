@@ -12,11 +12,11 @@ if [%config%]==[] set config=Release
 
 rem prepare 64-bit build toolset
 if not defined INCLUDE (
-    call "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64
+    call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" amd64
     
     if errorlevel 1 (
     echo.
-    echo Could not prepare Visual Studio compiler - do you have Visual Studio 2017 installed?
+    echo Could not prepare Visual Studio compiler - do you have Visual Studio 2019 installed?
     exit /b 1
     )
 )
@@ -67,7 +67,7 @@ call :download_repo "Crossing Detector"     tne-lab             crossing-detecto
 call :download_repo "Sample Math"           tne-lab             sample-math         cmake-gui   || exit /b 1
 call :download_repo "Mean Spike Rate"       tne-lab             mean-spike-rate     cmake-gui   || exit /b 1
 call :download_repo "ICA"                   tne-lab             ica-plugin          cmake-gui   || exit /b 1
-call :download_repo "Coherence"             tne-lab             coherence-viewer    master      || exit /b 1
+call :download_repo "Coherence"             tne-lab             Coherence-Spectrogram-Viewer    master      || exit /b 1
 if defined CONDA_HOME (
     call :download_repo "PythonPlugin"      tne-lab             PythonPlugin        cmake_build || exit /b 1          
 )
@@ -85,7 +85,7 @@ call :build_repo "Crossing Detector"        crossing-detector\CrossingDetector  
 call :build_repo "Sample Math"              sample-math\SampleMath              OE_PLUGIN_SampleMath        INSTALL     || exit /b 1
 call :build_repo "Mean Spike Rate"          mean-spike-rate\MeanSpikeRate       OE_PLUGIN_MeanSpikeRate     INSTALL     || exit /b 1
 call :build_repo "ICA"                      ica-plugin\ICA                      OE_PLUGIN_ICA               INSTALL     || exit /b 1
-call :build_repo "Coherence"                coherence-viewer\CoherenceViewer    OE_PLUGIN_CoherenceViewer   INSTALL     || exit /b 1
+call :build_repo "Coherence"                Coherence-Spectrogram-Viewer\CoherenceSpectrogramViewer    OE_PLUGIN_CoherenceSpectrogramViewer   INSTALL     || exit /b 1
 
 rem make links to the executable
 PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%rootdir%\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
@@ -121,7 +121,7 @@ exit /b 0
 
 :build_repo
 cd %rootdir%\%~2\Build
-cmake -G "Visual Studio 15 2017" -A x64 ..
+cmake -G "Visual Studio 16 2019" -A x64 ..
 if errorlevel 1 (
     cd %rootdir%
     echo CMake failed to configure %~1
@@ -132,7 +132,7 @@ if exist %logdir%\%logfile% del %logdir%\%logfile%
 echo.
 echo Building %~1...
 echo.
-call "%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe" %~3.sln /build %config% /project %~4 /out %logdir%\%logfile%
+call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe" %~3.sln /build %config% /project %~4 /out %logdir%\%logfile%
 if errorlevel 1 (
     cd %rootdir%
     echo Build failed, see install_log/%logfile%
