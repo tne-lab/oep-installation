@@ -10,17 +10,25 @@ if not exist %logdir% (
 set config=%1
 if [%config%]==[] set config=Release
 
-rem prepare 64-bit build toolset
-if not defined INCLUDE (
-    call "%ProgramFiles(x86)%\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64
-    
-    if errorlevel 1 (
-    echo.
-    echo Could not prepare Visual Studio compiler - do you have Visual Studio 2013 installed?
+rem make sure we have 64-bit build toolset
+if not defined VisualStudioVersion (
+    echo MSVC variables not defined - make sure to run from "x64 Native Tools Command Prompt"
     exit /b 1
-    )
 )
 
+rem get version number and year
+for /f "tokens=1 delims=." %%a in ("%VisualStudioVersion%") do set vsver=%%a
+if "%vsver%"=="12" set vsyear=2013
+if "%vsver%"=="15" set vsyear=2017
+if "%vsver%"=="16" set vsyear=2019
+
+if not defined vsyear (
+    echo Error: Visual Studio version %vsver% not supported
+    exit /b 1
+)
+
+echo Using Visual Studio %vsyear% (%VisualStudioVersion%)
+echo.
 echo Downloading GUI and dependencies...
 
 if not exist asiosdk (
@@ -121,7 +129,7 @@ exit /b 0
 
 :build_repo
 cd %rootdir%\%~2\Build
-cmake -G "Visual Studio 12 2013" -A x64 ..
+cmake -G "Visual Studio %vsver% %vsyear%" -A x64 ..
 if errorlevel 1 (
     cd %rootdir%
     echo CMake failed to configure %~1

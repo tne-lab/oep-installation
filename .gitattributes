@@ -1,0 +1,10 @@
+# Set fixed line endings for certain files
+# Default behavior (auto):
+* text=auto
+
+# UNIX shell scripts should have LF
+*.sh text eol=lf
+
+# Windows script files MUST have CRLF
+*.bat text eol=crlf
+*.ps1 text eol=crlf
