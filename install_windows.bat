@@ -71,6 +71,7 @@ if errorlevel 1 (
 rem                 Name                    Organization        Repository          Branch
 rem --------------------------------------------------------------------------------------------------------
 call :download_repo "Open Ephys GUI"        tne-lab             plugin-GUI          low-latency || exit /b 1
+call :download_repo_plugin_folder "OpenEphysHDF5Lib"        open-ephys-plugins  OpenEphysHDF5Lib          master      || exit /b 1
 call :download_repo_plugin_folder "Network Events"        open-ephys-plugins  NetworkEvents          master      || exit /b 1
 call :download_repo_plugin_folder "Event Broadcaster"        open-ephys-plugins  EventBroadcaster          master      || exit /b 1
 call :download_repo_plugin_folder "KWIK Format"        open-ephys-plugins  KWIKFormat          master      || exit /b 1
@@ -90,9 +91,10 @@ echo Building GUI and dependencies...
 rem              Name                       Folder containing CMakeLists.txt    Solution name               Project name
 rem --------------------------------------------------------------------------------------------------------------------------------
 call :build_repo "Open Ephys GUI"           plugin-GUI                          open-ephys-GUI              ALL_BUILD   || exit /b 1
-call :build_repo_plugin_repo "Network Events"        NetworkEvents          OE_PLUGIN_NetworkEvents      || exit /b 1
-call :build_repo_plugin_repo "Event Broadcaster"        EventBroadcaster          OE_PLUGIN_EventBroadcaster       || exit /b 1
-call :build_repo_plugin_repo "KWIK Format"        KWIKFormat          OE_PLUGIN_KWIKFormat      || exit /b 1
+call :build_repo_plugin_repo "OpenEphysHDF5Lib"        OpenEphysHDF5Lib        OE_COMMONLIB_OpenEphysHDF5    INSTALL  || exit /b 1
+call :build_repo_plugin_repo "Network Events"        NetworkEvents          OE_PLUGIN_NetworkEvents    INSTALL  || exit /b 1
+call :build_repo_plugin_repo "Event Broadcaster"        EventBroadcaster          OE_PLUGIN_EventBroadcaster   INSTALL    || exit /b 1
+call :build_repo_plugin_repo "KWIK Format"        KWIKFormat          OE_PLUGIN_KWIKFormat    INSTALL  || exit /b 1
 call :build_repo "OpenEphysFFTW library"    OpenEphysFFTW\OpenEphysFFTW         OE_COMMONLIB_OpenEphysFFTW  INSTALL     || exit /b 1
 call :build_repo "Phase Calculator"         phase-calculator\PhaseCalculator    OE_PLUGIN_PhaseCalculator   INSTALL     || exit /b 1
 call :build_repo "Crossing Detector"        crossing-detector\CrossingDetector  OE_PLUGIN_CrossingDetector  INSTALL     || exit /b 1
@@ -192,6 +194,7 @@ if exist %logdir%\%logfile% del %logdir%\%logfile%
 echo.
 echo Building %~1...
 echo.
+
 devenv %~3.sln /build %config% /project %~4 /out %logdir%\%logfile%
 if errorlevel 1 (
     cd %rootdir%
