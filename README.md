@@ -9,7 +9,7 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
 * [CMake](https://cmake.org/) must be installed.
 
-* On Windows, you must have Visual Studio 2013, 2017, or 2019 (or just the Build Tools for Visual Studio) installed.
+* On Windows, you must have Visual Studio 2013, 2017, 2019, or 2022 (or just the Build Tools for Visual Studio) installed.
 
 * If you are on Windows and want to use ASIO for lower-latency processing, you must install ASIO4ALL [here](http://www.asio4all.org/).
 
@@ -22,7 +22,7 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
   * Linux: `source install_linux.sh`
   
-  * Windows: Script must be run from a Command Prompt shortcut that came with your Visual Studio installation which sets environment variables for the compiler. In the Start menu, find and open `Visual Studio 20XX/x64 Native Tools Command Prompt for VS 20XX` (where `20XX` is 2013, 2017, or 2019), navigate to the `oep-installation` directory, and run `install_windows.bat`.
+  * Windows: Script must be run from a Command Prompt shortcut that came with your Visual Studio installation which sets environment variables for the compiler. In the Start menu, find and open `Visual Studio 20XX/x64 Native Tools Command Prompt for VS 20XX` (where `20XX` is 2013, 2017, 2019, or 2022), navigate to the `oep-installation` directory, and run `install_windows.bat`.
 
 
 * The scripts will build the Release GUI by default, but to use a different configuration (such as Debug), you can pass it as an argument, i.e. run `install_windows.bat Debug`.
