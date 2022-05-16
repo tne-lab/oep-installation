@@ -21,6 +21,7 @@ for /f "tokens=1 delims=." %%a in ("%VisualStudioVersion%") do set vsver=%%a
 if "%vsver%"=="12" set vsyear=2013
 if "%vsver%"=="15" set vsyear=2017
 if "%vsver%"=="16" set vsyear=2019
+if "%vsver%"=="17" set vsyear=2022
 
 if not defined vsyear (
     echo Error: Visual Studio version %vsver% not supported
