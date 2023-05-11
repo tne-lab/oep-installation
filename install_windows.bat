@@ -71,18 +71,19 @@ if errorlevel 1 (
 
 rem                 Name                    Organization        Repository          Branch
 rem --------------------------------------------------------------------------------------------------------
-call :download_repo "Open Ephys GUI"        tne-lab             plugin-GUI          low-latency || exit /b 1
-call :download_repo_plugin_folder "OpenEphysHDF5Lib"        open-ephys-plugins  OpenEphysHDF5Lib          master      || exit /b 1
-call :download_repo_plugin_folder "Network Events"        open-ephys-plugins  NetworkEvents          master      || exit /b 1
-call :download_repo_plugin_folder "Event Broadcaster"        open-ephys-plugins  EventBroadcaster          master      || exit /b 1
-call :download_repo_plugin_folder "KWIK Format"        open-ephys-plugins  KWIKFormat          master      || exit /b 1
-call :download_repo "OpenEphysFFTW library" tne-lab             OpenEphysFFTW       cmake-gui   || exit /b 1
-call :download_repo "Phase Calculator"      tne-lab             phase-calculator    cmake-gui   || exit /b 1
-call :download_repo "Crossing Detector"     tne-lab             crossing-detector   master      || exit /b 1
-call :download_repo "Sample Math"           tne-lab             sample-math         cmake-gui   || exit /b 1
-call :download_repo "Mean Spike Rate"       tne-lab             mean-spike-rate     cmake-gui   || exit /b 1
-call :download_repo "ICA"                   tne-lab             ica-plugin          cmake-gui   || exit /b 1
-call :download_repo "Coherence"             tne-lab             Coherence-Spectrogram-Viewer    master      || exit /b 1
+call :download_repo "Open Ephys GUI"        tne-lab             plugin-GUI          open-ephys-v6 || exit /b 1
+call :download_repo_plugin_folder "OpenEphysHDF5Lib"        open-ephys-plugins  OpenEphysHDF5Lib          main      || exit /b 1
+call :download_repo_plugin_folder "Network Events"        open-ephys-plugins  NetworkEvents          main      || exit /b 1
+call :download_repo_plugin_folder "Event Broadcaster"        open-ephys-plugins  EventBroadcaster          main      || exit /b 1
+call :download_repo_plugin_folder "lab-streaming-layer-io"        open-ephys-plugins  lab-streaming-layer-io          main      || exit /b 1
+@REM call :download_repo_plugin_folder "KWIK Format"        open-ephys-plugins  KWIKFormat          main      || exit /b 1
+call :download_repo "OpenEphysFFTW library" tne-lab             OpenEphysFFTW       cmake-gui       || exit /b 1
+call :download_repo "Phase Calculator"      tne-lab             phase-calculator    open-ephys-v6   || exit /b 1
+call :download_repo "Crossing Detector"     tne-lab             crossing-detector   open-ephys-v6   || exit /b 1
+call :download_repo "Sample Math"           tne-lab             sample-math         open-ephys-v6   || exit /b 1
+call :download_repo "Mean Spike Rate"       tne-lab             mean-spike-rate     open-ephys-v6   || exit /b 1
+@REM call :download_repo "ICA"                   tne-lab             ica-plugin          cmake-gui   || exit /b 1
+@REM call :download_repo "Coherence"             tne-lab             Coherence-Spectrogram-Viewer    master      || exit /b 1
 if defined CONDA_HOME (
     call :download_repo "PythonPlugin"      tne-lab             PythonPlugin        cmake_build || exit /b 1          
 )
@@ -95,14 +96,15 @@ call :build_repo "Open Ephys GUI"           plugin-GUI                          
 call :build_repo_plugin_repo "OpenEphysHDF5Lib"        OpenEphysHDF5Lib        OE_COMMONLIB_OpenEphysHDF5    INSTALL  || exit /b 1
 call :build_repo_plugin_repo "Network Events"        NetworkEvents          OE_PLUGIN_NetworkEvents    INSTALL  || exit /b 1
 call :build_repo_plugin_repo "Event Broadcaster"        EventBroadcaster          OE_PLUGIN_EventBroadcaster   INSTALL    || exit /b 1
-call :build_repo_plugin_repo "KWIK Format"        KWIKFormat          OE_PLUGIN_KWIKFormat    INSTALL  || exit /b 1
+call :build_repo_plugin_repo "lab-streaming-layer-io"        lab-streaming-layer-io          OE_PLUGIN_lab-streaming-layer-io   INSTALL    || exit /b 1
+@REM call :build_repo_plugin_repo "KWIK Format"        KWIKFormat          OE_PLUGIN_KWIKFormat    INSTALL  || exit /b 1
 call :build_repo "OpenEphysFFTW library"    OpenEphysFFTW\OpenEphysFFTW         OE_COMMONLIB_OpenEphysFFTW  INSTALL     || exit /b 1
-call :build_repo "Phase Calculator"         phase-calculator\PhaseCalculator    OE_PLUGIN_PhaseCalculator   INSTALL     || exit /b 1
-call :build_repo "Crossing Detector"        crossing-detector\CrossingDetector  OE_PLUGIN_CrossingDetector  INSTALL     || exit /b 1
+call :build_repo "Phase Calculator"         phase-calculator    OE_PLUGIN_phase-calculator   INSTALL     || exit /b 1
+call :build_repo "Crossing Detector"        crossing-detector  OE_PLUGIN_crossing-detector  INSTALL     || exit /b 1
 call :build_repo "Sample Math"              sample-math\SampleMath              OE_PLUGIN_SampleMath        INSTALL     || exit /b 1
 call :build_repo "Mean Spike Rate"          mean-spike-rate\MeanSpikeRate       OE_PLUGIN_MeanSpikeRate     INSTALL     || exit /b 1
-call :build_repo "ICA"                      ica-plugin\ICA                      OE_PLUGIN_ICA               INSTALL     || exit /b 1
-call :build_repo "Coherence"                Coherence-Spectrogram-Viewer\CoherenceSpectrogramViewer    OE_PLUGIN_CoherenceSpectrogramViewer   INSTALL     || exit /b 1
+@REM call :build_repo "ICA"                      ica-plugin\ICA                      OE_PLUGIN_ICA               INSTALL     || exit /b 1
+@REM call :build_repo "Coherence"                Coherence-Spectrogram-Viewer\CoherenceSpectrogramViewer    OE_PLUGIN_CoherenceSpectrogramViewer   INSTALL     || exit /b 1
 
 rem make links to the executable
 PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%rootdir%\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
