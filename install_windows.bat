@@ -75,7 +75,7 @@ call :download_repo "Open Ephys GUI"        tne-lab             plugin-GUI      
 call :download_repo_plugin_folder "OpenEphysHDF5Lib"        open-ephys-plugins  OpenEphysHDF5Lib          main      || exit /b 1
 call :download_repo_plugin_folder "Network Events"        open-ephys-plugins  NetworkEvents          main      || exit /b 1
 call :download_repo_plugin_folder "Event Broadcaster"        open-ephys-plugins  EventBroadcaster          main      || exit /b 1
-call :download_repo_plugin_folder "lab-streaming-layer-io"        open-ephys-plugins  lab-streaming-layer-io          main      || exit /b 1
+call :download_repo_plugin_folder "lab-streaming-layer-io"        JoelNielsen7  lab-streaming-layer-io          main      || exit /b 1
 @REM call :download_repo_plugin_folder "KWIK Format"        open-ephys-plugins  KWIKFormat          main      || exit /b 1
 call :download_repo "OpenEphysFFTW library" tne-lab             OpenEphysFFTW       cmake-gui       || exit /b 1
 call :download_repo "Phase Calculator"      tne-lab             phase-calculator    open-ephys-v6   || exit /b 1
