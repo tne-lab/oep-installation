@@ -35,3 +35,18 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
 * If you are using the Python Plugin in Windows be sure to follow the instructions at https://github.com/tne-lab/PythonPlugin/tree/cmake_build to build and configure your installation after running the .bat script. Then see https://github.com/MemDynLab/PythonPlugin/issues/23 if you have issues loading python modules in.
 
+## additional note: Visual Studio full or VS build tools installation
+Installing Visual Studio Community Edition for C++ Development:
+•	Download & Run Installer: Get the Visual Studio Community Installer from the official website, then run it.
+•	Edition & Workloads: Choose "Community" edition. Select "Desktop development with C++" workload.
+•	Components: Optionally, customize components under "Individual components."
+•	Location, Options & Install: Pick installation directory, set preferences, and click "Install."
+•	Wait & Finish: Allow installation to complete, then launch Visual Studio.
+•	Sign In (Optional): Log in with Microsoft account.
+•	Start Using: Open Visual Studio for C++ development.
+
+Installing Visual Studio Build Tools for C++:
+•	Download & Run Installer: Download the Visual Studio Build Tools Installer, then run it.
+•	Workloads & Components: Select "Desktop development with C++" workload. Optionally customize "Individual components."
+•	Installation Options & Install: Choose location and other preferences, then click "Install."
+•	Wait & Finish: Allow installation to complete.
