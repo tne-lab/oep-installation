@@ -1,6 +1,6 @@
 # oep-installation
 
-This repository houses scripts for easy installation of Open Ephys and useful plugins.
+This repository houses scripts for easy installation of Open Ephys and useful plugins for Open Ephys v0.6.4.
 
 ## Prerequisites
 
