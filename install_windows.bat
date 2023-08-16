@@ -75,7 +75,7 @@ call :download_repo               "Open Ephys GUI"              tne-lab         
 call :download_repo_plugin_folder "OpenEphysHDF5Lib"            open-ephys-plugins  OpenEphysHDF5Lib        main          || exit /b 1
 call :download_repo_plugin_folder "Network Events"              tne-lab             network-events          main          || exit /b 1
 call :download_repo_plugin_folder "Event Broadcaster"           tne-lab             event-broadcaster       main          || exit /b 1
-call :download_repo_plugin_folder "lab-streaming-layer-io"      tne-lab             LSL-Inlet               main          || exit /b 1
+call :download_repo_plugin_folder "lab-streaming-layer-io"      tne-lab             LSL-Inlet               open-ephys-v6 || exit /b 1
 call :download_repo_plugin_folder "Rhythm Plugins"              open-ephys-plugins  rhythm-plugins          main          || exit /b 1
 call :download_repo               "OpenEphysFFTW library"       tne-lab             OpenEphysFFTW           cmake-gui     || exit /b 1
 call :download_repo               "Phase Calculator"            tne-lab             phase-calculator        open-ephys-v6 || exit /b 1
