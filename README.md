@@ -9,7 +9,7 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
 * [CMake](https://cmake.org/) must be installed.
 
-* On Windows, you must have Visual Studio 2013, 2017, 2019, or 2022 (or just the Build Tools for Visual Studio) installed.
+* On Windows, you must have Visual Studio 2013, 2017, 2019, or 2022 (or just the Build Tools for Visual Studio) installed from [here](https://visualstudio.microsoft.com/vs/community/).
 
 * If you are on Windows and want to use ASIO for lower-latency processing, you must install ASIO4ALL [here](http://www.asio4all.org/).
 
