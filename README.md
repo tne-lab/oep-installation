@@ -37,16 +37,16 @@ This repository houses scripts for easy installation of Open Ephys and useful pl
 
 ## additional note: Visual Studio full or VS build tools installation
 Installing Visual Studio Community Edition for C++ Development:
-•	Download & Run Installer: Get the Visual Studio Community Installer from the official website, then run it.
-•	Edition & Workloads: Choose "Community" edition. Select "Desktop development with C++" workload.
-•	Components: Optionally, customize components under "Individual components."
-•	Location, Options & Install: Pick installation directory, set preferences, and click "Install."
-•	Wait & Finish: Allow installation to complete, then launch Visual Studio.
-•	Sign In (Optional): Log in with Microsoft account.
-•	Start Using: Open Visual Studio for C++ development.
+*	Download & Run Installer: Get the Visual Studio Community Installer from the official website, then run it.
+*	Edition & Workloads: Choose "Community" edition. Select "Desktop development with C++" workload.
+*	Components: Optionally, customize components under "Individual components."
+*	Location, Options & Install: Pick installation directory, set preferences, and click "Install."
+*	Wait & Finish: Allow installation to complete, then launch Visual Studio.
+*	Sign In (Optional): Log in with Microsoft account.
+*	Start Using: Open Visual Studio for C++ development.
 
 Installing Visual Studio Build Tools for C++:
-•	Download & Run Installer: Download the Visual Studio Build Tools Installer, then run it.
-•	Workloads & Components: Select "Desktop development with C++" workload. Optionally customize "Individual components."
-•	Installation Options & Install: Choose location and other preferences, then click "Install."
-•	Wait & Finish: Allow installation to complete.
+*	Download & Run Installer: Download the Visual Studio Build Tools Installer, then run it.
+*	Workloads & Components: Select "Desktop development with C++" workload. Optionally customize "Individual components."
+*	Installation Options & Install: Choose location and other preferences, then click "Install."
+*	Wait & Finish: Allow installation to complete.
