@@ -81,8 +81,8 @@ call :download_repo "Phase Calculator"      tne-lab             phase-calculator
 call :download_repo "Crossing Detector"     tne-lab             crossing-detector   master      || exit /b 1
 call :download_repo "Sample Math"           tne-lab             sample-math         cmake-gui   || exit /b 1
 call :download_repo "Mean Spike Rate"       tne-lab             mean-spike-rate     cmake-gui   || exit /b 1
-call :download_repo "ICA"                   tne-lab             ica-plugin          cmake-gui   || exit /b 1
-call :download_repo "Coherence"             tne-lab             Coherence-Spectrogram-Viewer    master      || exit /b 1
+call :download_repo "LSL Inlet"             tne-lab             LSL-inlet           v6-downgrade      || exit /b 1
+call :download_repo "Parallel Port Output"  tne-lab             parallel-port-output main      || exit /b 1
 if defined CONDA_HOME (
     call :download_repo "PythonPlugin"      tne-lab             PythonPlugin        cmake_build || exit /b 1          
 )
@@ -101,8 +101,8 @@ call :build_repo "Phase Calculator"         phase-calculator\PhaseCalculator    
 call :build_repo "Crossing Detector"        crossing-detector\CrossingDetector  OE_PLUGIN_CrossingDetector  INSTALL     || exit /b 1
 call :build_repo "Sample Math"              sample-math\SampleMath              OE_PLUGIN_SampleMath        INSTALL     || exit /b 1
 call :build_repo "Mean Spike Rate"          mean-spike-rate\MeanSpikeRate       OE_PLUGIN_MeanSpikeRate     INSTALL     || exit /b 1
-call :build_repo "ICA"                      ica-plugin\ICA                      OE_PLUGIN_ICA               INSTALL     || exit /b 1
-call :build_repo "Coherence"                Coherence-Spectrogram-Viewer\CoherenceSpectrogramViewer    OE_PLUGIN_CoherenceSpectrogramViewer   INSTALL     || exit /b 1
+call :build_repo "Parallel Port Output"      parallel-port-output\parallel-port-output    OE_PLUGIN_parallel-port-output   INSTALL     || exit /b 1
+call :build_repo "LSL Inlet"                LSL-inlet    OE_PLUGIN_LSL-inlet   INSTALL     || exit /b 1
 
 rem make links to the executable
 PowerShell -ExecutionPolicy RemoteSigned "$s=(New-Object -COM WScript.Shell).CreateShortcut('%rootdir%\open-ephys (%config%).lnk');$s.TargetPath='%rootdir%\plugin-GUI\Build\%config%\open-ephys.exe';$s.Save()"
