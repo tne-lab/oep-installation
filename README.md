@@ -50,3 +50,6 @@ Installing Visual Studio Build Tools for C++:
 *	Workloads & Components: Select "Desktop development with C++" workload. Optionally customize "Individual components."
 *	Installation Options & Install: Choose location and other preferences, then click "Install."
 *	Wait & Finish: Allow installation to complete.
+
+## Note on Network event and Event Broadcaster plugin
+Install the "ASP.NET and web development" with visual studio installer in order for plugin to show up on the open ephys screen (i.e. for the dll to be read correctly)
